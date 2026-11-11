@@ -11,8 +11,33 @@ body {
 
 footer {
     background-color: #f8f9fa;
-    color: #333;
-    padding: 20px;
-    text-align: center;
+    color: #334155;
+    padding: 24px max(20px, calc((100% - 1200px) / 2));
+    box-sizing: border-box;
     border-top: 1px solid #e9ecef;
+}
+
+.footerContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footerLinks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px 24px;
+}
+
+.footerLinks a {
+    color: inherit;
+    font-size: 0.95rem;
+    text-decoration: none;
+}
+
+.footerLinks a:hover,
+.footerLinks a:focus-visible {
+    color: #007bff;
+    text-decoration: underline;
 }

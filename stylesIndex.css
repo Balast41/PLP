@@ -57,6 +57,20 @@ h1 {
     font-family: "SF Pro Heavy", Arial, sans-serif;
 }
 
+#textPanels {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 24px;
+}
+
+#textPanels p {
+    margin: 0;
+    color: #123b73;
+    font-weight: 700;
+    text-align: center;
+}
+
 
 
 @media (max-width: 700px) {
