@@ -1,0 +1,101 @@
+@font-face{
+    font-family: "Chalkboard";
+    src: url("fonts/Chalkboard-Regular.ttf");
+    font-weight: 100 900;
+}
+
+@font-face{
+    font-family: "SF Pro Display";
+    src: url("fonts/SF-Pro-Display-Regular.otf");
+    font-weight: 100 900;
+}
+
+@font-face{
+    font-family: "SF Pro Heavy";
+    src: url("fonts/SF-Pro-Text-Heavy.otf");
+    font-weight: 100 900;
+}
+
+form#registerForm {
+    width: min(480px, calc(100% - 32px));
+    margin: 48px auto;
+    padding: 32px;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+#registerForm h2 {
+    margin: 0 0 24px;
+    text-align: center;
+    font-family: "SF Pro Heavy", Arial, sans-serif;
+}
+
+#registerForm label {
+    display: block;
+    margin: 16px 0 6px;
+    font-weight: 600;
+    font-family: "SF Pro Display", Arial, sans-serif;
+}
+
+#registerForm input[type="text"],
+#registerForm input[type="email"],
+#registerForm input[type="password"] {
+    display: block;
+    width: 100%;
+    padding: 11px 12px;
+    box-sizing: border-box;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font: inherit;
+}
+
+#registerForm input:focus {
+    outline: 2px solid #80bdff;
+    outline-offset: 1px;
+}
+
+#registerForm input[type="checkbox"] {
+    margin: 12px 6px 12px 0;
+    accent-color: #007bff;
+}
+
+#registerForm input[type="radio"] {
+    margin: 12px 4px 12px 0;
+    accent-color: #007bff;
+}
+
+#registerForm label[for="student"],
+#registerForm label[for="teacher"],
+#registerForm label[for="parent"],
+#registerForm label[for="support"] {
+    display: inline;
+    margin: 0 12px 0 0;
+    font-weight: normal;
+}
+
+#registerForm button[type="submit"] {
+    display: block;
+    width: 100%;
+    margin-top: 24px;
+    padding: 12px;
+    color: #fff;
+    background: #007bff;
+    border: 0;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#registerForm button[type="submit"]:hover {
+    background: #0056b3;
+}
+
+@media (max-width: 480px) {
+    form#registerForm {
+        padding: 24px;
+    }
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ApprenTSAge</title>
+        <link rel="stylesheet" href="stylesHeader.css">
+        <link rel="stylesheet" href="stylesFooter.css">
+        <link rel="stylesheet" href="stylesRegister.css">
+    </head>
+    <body>
+        <div id="site-header"></div>
+        <form id="registerForm">
+            <h2>Inscription</h2>
+            <label for="username">Nom d'utilisateur :</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password" required>
+            <input type="checkbox" id="showPassword" onchange="togglePasswordVisibility('password')"> Afficher le mot de passe
+
+            <label for="confirmPassword">Confirmer le mot de passe :</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+            <input type="checkbox" id="showConfirmPassword" onchange="togglePasswordVisibility('confirmPassword')"> Afficher le mot de passe
+
+            <label for="role">Rôle :</label>
+            <input type="radio" id="student" name="role" value="child" required>
+            <label for="student">Étudiant</label>
+            <input type="radio" id="teacher" name="role" value="teacher" required>
+            <label for="teacher">Enseignant</label>
+            <input type="radio" id="parent" name="role" value="parent" required>
+            <label for="parent">Parent</label>
+            <input type="radio" id="support" name="role" value="support" required>
+            <label for="support">Accompagnant</label>
+
+            <button type="submit" onclick="location.href='exosR.html'">S'inscrire</button>
+        </form>
+        <div id="site-footer"></div>
+        <script src="components.js"></script>
+    </body>
+</html>

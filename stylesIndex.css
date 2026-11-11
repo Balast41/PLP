@@ -1,0 +1,67 @@
+@font-face{
+    font-family: "Chalkboard";
+    src: url("fonts/Chalkboard-Regular.ttf");
+    font-weight: 100 900;
+}
+
+@font-face{
+    font-family: "SF Pro Display";
+    src: url("fonts/SF-Pro-Display-Regular.otf");
+    font-weight: 100 900;
+}
+
+@font-face{
+    font-family: "SF Pro Heavy";
+    src: url("fonts/SF-Pro-Text-Heavy.otf");
+    font-weight: 100 900;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "San Francisco Pro Display", Arial, sans-serif;
+    background-color: #ffffff;
+    color: #333;
+}
+
+
+#hero {
+    background-color: #ffffff;
+    padding: 100px max(20px, calc((100% - 1060px) / 2));
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    gap: 20px;
+    min-height: 75vh;
+    box-sizing: border-box;
+}
+
+#heroLeft {
+    text-align: left;
+}
+
+#heroRight {
+    text-align: center;
+}
+
+#heroRight img {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    margin: 0;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-family: "SF Pro Heavy", Arial, sans-serif;
+}
+
+
+
+@media (max-width: 700px) {
+    #hero {
+        grid-template-columns: 1fr;
+        padding: 60px 20px;
+    }
+}
