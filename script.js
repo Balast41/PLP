@@ -36,14 +36,14 @@ function updateHeader() {
         logoutButton.hidden = !storedUserName;
         logoutButton.addEventListener("click", () => {
             localStorage.removeItem(demoUserNameKey);
-            window.location.href = "index.html";
+            window.location.href = "/index.html";
         });
     }
 
     const logo = document.getElementById("logo");
     if (logo) {
         logo.addEventListener("click", () => {
-            window.location.href = "index.html";
+            window.location.href = "/index.html";
         });
         logo.style.cursor = "pointer";
     }

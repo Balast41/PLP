@@ -19,7 +19,7 @@ async function loadComponents() {
     ]);
 
     const pageScript = document.createElement("script");
-    pageScript.src = "script.js";
+    pageScript.src = "/script.js";
     pageScript.onerror = () => console.error("Impossible de charger script.js");
     document.body.appendChild(pageScript);
 }
