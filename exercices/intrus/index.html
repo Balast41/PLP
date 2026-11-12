@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trouve l'intrus</title>
+  <link rel="stylesheet" href="/exercices/intrus/style.css">
+  <link rel="stylesheet" href="/stylesHeader.css">
+  <link rel="stylesheet" href="/stylesFooter.css">
+
+</head>
+<body>
+  <div id="site-header"></div>
+  <main>
+    <h1>Trouve l'intrus</h1>
+    <p class="consigne">Un seul élément n'a pas de lien avec les autres. Lequel ?</p>
+
+    <p id="progress" class="progress">Question 1 / 1</p>
+    <div id="choices" class="choices"></div>
+
+    <!-- Annonce vocale pour les lecteurs d'écran (invisible à l'écran) -->
+    <p id="sr" class="sr-only" role="status"></p>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+
+  <div id="site-footer"></div>
+  <script src="/components.js"></script>
+</body>
+</html>

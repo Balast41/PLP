@@ -1,0 +1,66 @@
+:root {
+  --bg: #f6f3ee;
+  --card: #ffffff;
+  --ink: #1f2430;
+  --muted: #6b7280;
+  --accent: #3b5bdb;
+  --ok: #2f9e44;
+  --ko: #e03131;
+  --radius: 14px;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.5;
+}
+main { max-width: 100%; margin-left: 20%; margin-right: 20%; padding: 24px 16px 48px; }
+h1 { font-size: 1.6rem; margin: 0 0 4px; }
+.consigne { color: var(--muted); margin: 0 0 20px; }
+
+/* Plateau : deux colonnes + calque SVG pour les traits */
+.board {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 clamp(48px, 18vw, 130px);
+}
+.lines {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; /* les clics traversent le SVG */
+  overflow: visible;
+}
+.col { display: flex; flex-direction: column; gap: 12px; }
+
+.item {
+  font: inherit;
+  min-height: 64px;
+  padding: 8px 12px;
+  background: var(--card);
+  color: var(--ink);
+  border: 2px solid #d9d4ca;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.15rem; font-weight: 600;
+  transition: transform .12s, border-color .12s, box-shadow .12s;
+}
+.item:hover:not(:disabled) { border-color: var(--accent); transform: translateY(-1px); }
+.item:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.item img { max-height: 100px; max-width: 100%; object-fit: contain; }
+.item .emoji { font-size: 2.2rem; line-height: 1; }
+
+.item.selected { border-color: var(--accent); box-shadow: 0 0 0 4px rgb(59 91 219 / .2); }
+.item.done { border-color: var(--c, var(--ok)); cursor: default; }
+.item.wrong { border-color: var(--ko); animation: shake .4s; }
+@keyframes shake {
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item, .item.wrong { transition: none; animation: none; }
+}

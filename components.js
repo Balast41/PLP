@@ -14,8 +14,8 @@ async function injectComponent(selector, file) {
 
 async function loadComponents() {
     await Promise.all([
-        injectComponent("#site-header", "header.html"),
-        injectComponent("#site-footer", "footer.html")
+        injectComponent("#site-header", "/header.html"),
+        injectComponent("#site-footer", "/footer.html")
     ]);
 
     const pageScript = document.createElement("script");

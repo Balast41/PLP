@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Association image / mot</title>
+  <link rel="stylesheet" href="/exercices/association/style.css">
+  <link rel="stylesheet" href="/stylesHeader.css">
+  <link rel="stylesheet" href="/stylesFooter.css">
+</head>
+
+<body>
+  <div id="site-header"></div>
+  <main>
+    <h1>Associe chaque image à son mot</h1>
+    <p class="consigne">Clique sur une image, puis sur le mot qui lui correspond (ou l'inverse).</p>
+
+    <div id="board" class="board">
+      <svg id="lines" class="lines" aria-hidden="true"></svg>
+      <div id="col-images" class="col"></div>
+      <div id="col-words" class="col"></div>
+    </div>
+  </main>
+
+  <script src="/exercices/association/data.js"></script>
+  <script src="/exercices/association/script.js"></script>
+
+  <div id="site-footer"></div>
+  <script src="/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+:root {
+  --bg: #f6f3ee;
+  --card: #ffffff;
+  --ink: #1f2430;
+  --muted: #6b7280;
+  --accent: #3b5bdb;
+  --ok: #2f9e44;
+  --radius: 14px;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.5;
+}
+main { max-width: 560px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-size: 1.6rem; margin: 0 0 4px; }
+.consigne { color: var(--muted); margin: 0 0 20px; }
+.progress { margin: 0 0 16px; font-weight: 600; }
+
+/* 5 propositions : les lignes se remplissent puis la dernière est centrée */
+.choices { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.choice {
+  flex: 0 1 calc(50% - 6px);
+  display: flex; align-items: center; justify-content: center;
+  font: inherit; font-size: 1.2rem; font-weight: 600;
+  min-height: 84px; padding: 10px;
+  background: var(--card); color: var(--ink);
+  border: 2px solid #d9d4ca; border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform .12s, border-color .12s;
+}
+.choice:hover:not(:disabled) { border-color: var(--accent); transform: translateY(-1px); }
+.choice:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.choice:disabled { cursor: default; color: var(--ink); }
+.choice img { max-width: 100%; max-height: 96px; object-fit: contain; }
+
+/* Seule la bonne réponse est mise en évidence (couleur + coche : pas que la couleur) */
+.choice.correct { border-color: var(--ok); background: #e6f6ea; }
+.choice.correct::after { color: var(--ok); }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+@media (max-width: 380px) { .choice { flex-basis: 100%; } }
+@media (min-width: 560px) { .choice { flex-basis: calc(33.333% - 8px); } }
+@media (prefers-reduced-motion: reduce) { .choice { transition: none; } }
