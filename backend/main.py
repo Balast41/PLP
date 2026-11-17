@@ -1,6 +1,8 @@
 """Application FastAPI : python -m uvicorn backend.main:app --reload."""
 
 import os
+import math
+from pathlib import Path
 from uuid import UUID
 
 from fastapi import FastAPI, HTTPException, Request, Response
@@ -12,21 +14,29 @@ from .schemas import (
     AnswerRequest, Catalog, Correction, Error, Exercise, GenerateRequest, Health,
 )
 from .store import ExerciseStore
+from .database import Database
+from .platform import router as platform_router
 
 
-def create_app() -> FastAPI:
+def create_app(db_path: str | None = None) -> FastAPI:
     app = FastAPI(
-        title="PLP — API d'exercices",
-        version="0.1.0",
-        description="Génération locale et correction d'exercices. Cache temporaire, sans compte utilisateur.",
+        title="ApprenTSAge — API de plateforme",
+        version="0.2.0",
+        description="Comptes, élèves, séances, progression et recommandations par logique floue. Les routes Exercices sont une démonstration indépendante sans suivi.",
     )
     app.state.exercises = ExerciseStore()
+    app.state.database = Database(db_path or os.getenv('PLP_DB_PATH', str(Path(__file__).parent / 'data' / 'plp.sqlite3')))
+    app.state.spacing_days = float(os.getenv('PLP_MASTERY_SPACING_DAYS', '1'))
+    if not math.isfinite(app.state.spacing_days) or app.state.spacing_days <= 0:
+        raise ValueError('PLP_MASTERY_SPACING_DAYS doit être strictement positif et fini.')
+    app.include_router(platform_router)
     origins = [origin.strip() for origin in os.getenv(
         "PLP_CORS_ORIGINS", "http://localhost:5500,http://127.0.0.1:5500"
     ).split(",") if origin.strip()]
     app.add_middleware(
         CORSMiddleware, allow_origins=origins,
-        allow_methods=["GET", "POST"], allow_headers=["Content-Type"],
+        allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
+        allow_headers=["Content-Type", "Authorization"],
     )
 
     @app.get("/health", response_model=Health, tags=["Service"], summary="Vérifier le service")

@@ -1,5 +1,13 @@
 # Backend PLP
 
+## Plateforme complète
+
+Le backend inclut désormais les comptes, rôles, élèves, invitations, séances,
+résultats persistants, administration et recommandations par logique floue.
+Voir [la documentation de chaque endpoint de plateforme](PLATEFORME.md) et
+[le détail du moteur flou](LOGIQUE_FLOUE.md). La suite de ce fichier décrit
+les endpoints de démonstration indépendants du suivi des élèves.
+
 API FastAPI pour le générateur Python existant : association, intrus et
 dénombrement. Python 3.10 minimum. Toutes les commandes partent de la racine
 du dépôt `PLP-github`.
@@ -123,13 +131,13 @@ Les erreurs 404 et les incompatibilités de format de réponse sont des objets
 
 ```powershell
 backend/.venv/Scripts/python -m pip install -r backend/requirements-dev.txt
-backend/.venv/Scripts/python -m unittest backend.test_api -v
+backend/.venv/Scripts/python -m unittest backend.test_api backend.test_platform -v
 ```
 
 Les tests couvrent les trois types aux trois niveaux, la correction, les
 erreurs, le cache, CORS et le contrat OpenAPI.
 
-## Configuration et limites
+## Configuration et limites de la démonstration
 
 Les origines CORS autorisées par défaut sont `http://localhost:5500` et
 `http://127.0.0.1:5500`. Configurer d'autres origines avant le démarrage :
@@ -141,11 +149,14 @@ $env:PLP_CORS_ORIGINS = 'http://localhost:3000,https://exemple.fr'
 Utiliser une origine HTTP pour les pages clientes. Le frontend existant reste
 autonome ; son raccordement à l'API est à effectuer séparément.
 
+Les seules routes `/api/v1/exercises` utilisent le cache de démonstration.
+Les routes `/api/v1/sessions` utilisent SQLite et persistent au redémarrage.
 Le cache conserve les 1 000 derniers exercices, évince le plus ancien et se
 vide au redémarrage. Utiliser un seul worker : les caches ne sont pas partagés
 entre processus. Aucun compte, authentification, donnée personnelle, historique,
-base de données ni service externe. Les pages login/register existantes n'ont
-pas de backend dans ce périmètre pédagogique. Les exercices memory ne font
+base de données ni service externe dans les routes de démonstration.
+Les routes de comptes sont disponibles mais les formulaires existants ne sont
+pas encore raccordés à l'API. Les exercices memory ne font
 pas partie des trois types du générateur actuel. Niveaux et vocabulaire restent
 ceux du MVP ; aucune garantie d'unicité des contenus tirés.
 

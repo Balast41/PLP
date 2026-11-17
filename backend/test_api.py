@@ -21,7 +21,8 @@ class ApiTests(unittest.TestCase):
         })
         self.assertEqual(self.client.get('/docs').status_code, 200)
         schema = self.client.get('/openapi.json').json()
-        self.assertEqual(len(schema['paths']), 5)
+        self.assertIn('/api/v1/exercises', schema['paths'])
+        self.assertIn('/api/v1/auth/register', schema['paths'])
 
     def test_generation_retrieval_and_correction_all_types_and_levels(self):
         for kind in ('association', 'intrus', 'denombrement'):
