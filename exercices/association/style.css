@@ -16,9 +16,33 @@ body {
   color: var(--ink);
   line-height: 1.5;
 }
-main { max-width: 100%; margin-left: 20%; margin-right: 20%; padding: 24px 16px 48px; }
-h1 { font-size: 1.6rem; margin: 0 0 4px; }
-.consigne { color: var(--muted); margin: 0 0 20px; }
+main { max-width: 100%; margin-left: 20%; margin-right: 20%; padding: 56px 16px 48px; }
+.exercise-frame {
+  position: relative;
+  --item-height: clamp(64px, calc((100vh - 220px) / var(--association-rows, 4)), 100px);
+}
+.exercise-help { position: absolute; top: 16px; right: 16px; z-index: 2; }
+.help-button {
+  width: 30px; height: 30px; padding: 0;
+  border: 2px solid var(--accent); border-radius: 50%;
+  background: var(--card); color: var(--accent);
+  font: inherit; font-weight: 700; cursor: help;
+}
+.help-button:hover, .help-button:focus-visible { background: var(--accent); color: #fff; }
+.help-button:focus-visible { outline: 3px solid rgb(59 91 219 / .3); outline-offset: 2px; }
+.help-tooltip {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  display: grid; gap: 4px; width: min(280px, calc(100vw - 32px));
+  padding: 12px; border: 1px solid #d9d4ca; border-radius: var(--radius);
+  background: var(--card); box-shadow: 0 8px 24px rgb(31 36 48 / .15);
+  color: var(--ink); opacity: 0; pointer-events: none;
+  transform: translateY(-4px); transition: opacity .12s, transform .12s;
+}
+.help-tooltip span { color: var(--muted); }
+.exercise-help:hover .help-tooltip,
+.exercise-help:focus-within .help-tooltip {
+  opacity: 1; pointer-events: auto; transform: translateY(0);
+}
 
 /* Plateau : deux colonnes + calque SVG pour les traits */
 .board {
@@ -27,17 +51,15 @@ h1 { font-size: 1.6rem; margin: 0 0 4px; }
   grid-template-columns: 1fr 1fr;
   gap: 0 clamp(48px, 18vw, 130px);
 }
-.lines {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  pointer-events: none; /* les clics traversent le SVG */
-  overflow: visible;
+.col {
+  display: grid;
+  grid-auto-rows: var(--item-height);
+  gap: 12px;
 }
-.col { display: flex; flex-direction: column; gap: 12px; }
 
 .item {
   font: inherit;
-  min-height: 64px;
+  height: var(--item-height);
   padding: 8px 12px;
   background: var(--card);
   color: var(--ink);
@@ -46,21 +68,67 @@ h1 { font-size: 1.6rem; margin: 0 0 4px; }
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   font-size: 1.15rem; font-weight: 600;
-  transition: transform .12s, border-color .12s, box-shadow .12s;
+  transition: transform .12s, border-color .12s, box-shadow .12s, background-color .12s;
 }
+.item.image, .item.word { cursor: grab; touch-action: none; }
+.item.image:active, .item.word:active { cursor: grabbing; }
 .item:hover:not(:disabled) { border-color: var(--accent); transform: translateY(-1px); }
 .item:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-.item img { max-height: 100px; max-width: 100%; object-fit: contain; }
+.item img {
+  max-height: calc(100%);
+  max-width: calc(100% - 16px);
+  object-fit: contain;
+}
 .item .emoji { font-size: 2.2rem; line-height: 1; }
 
 .item.selected { border-color: var(--accent); box-shadow: 0 0 0 4px rgb(59 91 219 / .2); }
 .item.done { border-color: var(--c, var(--ok)); cursor: default; }
 .item.wrong { border-color: var(--ko); animation: shake .4s; }
+.item.dragging { opacity: .35; }
+.item.drop-target { border-color: var(--accent); background: #eef1ff; }
+.drag-ghost {
+  position: fixed;
+  z-index: 1001;
+  margin: 0;
+  pointer-events: none;
+  opacity: .9;
+  transform: rotate(2deg);
+}
 @keyframes shake {
   25% { transform: translateX(-6px); }
   75% { transform: translateX(6px); }
 }
 
+.answers:has(.answers-list:empty) { display: none; }
+.answers { margin-bottom: 28px; }
+.answers-list { display: grid; gap: 12px; }
+.answer-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 clamp(48px, 18vw, 130px);
+}
+.answer-pair .item { cursor: default; }
+
+.next-exercise {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 10;
+  width: 52px;
+  height: 52px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgb(31 36 48 / .2);
+}
+.next-exercise:hover { background: #2948b8; transform: translateY(-2px); }
+.next-exercise:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
 @media (prefers-reduced-motion: reduce) {
-  .item, .item.wrong { transition: none; animation: none; }
+  .item, .item.wrong, .help-tooltip, .next-exercise { transition: none; }
 }

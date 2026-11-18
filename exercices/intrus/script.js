@@ -7,6 +7,7 @@
   const choicesEl = document.getElementById("choices");
   const progressEl = document.getElementById("progress");
   const srEl = document.getElementById("sr");
+  const nextButton = document.getElementById("next-exercise");
 
   let questions = [];
   let index = 0;
@@ -85,22 +86,29 @@
       ? "Bonne réponse."
       : `L'intrus était : ${intrus.label}.`;
 
-    setTimeout(next, DELAI_MS);
+    nextButton.hidden = false;
   }
 
   function next() {
+    nextButton.hidden = true;
     index++;
     if (index < questions.length) return showQuestion();
-    // Fin de l'exercice : exercice suivant, ou nouveau tour
-    if (typeof SUIVANT === "string" && SUIVANT) window.location.href = SUIVANT;
-    else start();
+
   }
 
   function start() {
     questions = shuffle(DATA);
     index = 0;
+    nextButton.hidden = true;
     showQuestion();
   }
+  nextButton.addEventListener("click", () => {
+    if (index < questions.length - 1) {
+      next();
+    } else{
+      window.location.reload();
+    }
+  });
 
   start();
 })();

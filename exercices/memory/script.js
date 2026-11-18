@@ -6,6 +6,7 @@
   const DELAI_FIN_MS = 1200;               // avant de passer à la suite une fois fini
 
   const grid = document.getElementById("grid");
+  const nextButton = document.getElementById("next-exercise");
 
   let first = null;   // première carte retournée
   let locked = false; // bloque les clics pendant la comparaison
@@ -40,6 +41,7 @@
     btn.type = "button";
     btn.className = "card";
     btn.dataset.pair = card.pairId;
+    btn.dataset.type = card.type;
     btn.dataset.label = card.type === "image" ? "image" : card.content;
     btn.setAttribute("aria-label", "Carte face cachée");
 
@@ -67,13 +69,21 @@
 
     const second = card;
     if (first.dataset.pair === second.dataset.pair) {
-      [first, second].forEach((c) => c.classList.add("matched"));
+      setTimeout(() => {
+      [first, second].forEach((c) => {
+        c.classList.add("matched");
+        c.setAttribute("aria-hidden", "true");
+      });
       first = null;
       matched++;
       if (matched === totalPairs) {
         locked = true;
-        setTimeout(goNext, DELAI_FIN_MS);
+        showResults();
+        setTimeout(() => {
+          nextButton.hidden = false;
+        }, DELAI_FIN_MS);
       }
+      }, DELAI_CARTES_DIFFERENTES_MS);
     } else {
       locked = true; // verrou : évite de retourner une 3e carte
       const a = first;
@@ -88,13 +98,9 @@
     }
   }
 
-  function goNext() {
-    if (typeof SUIVANT === "string" && SUIVANT) window.location.href = SUIVANT;
-    else start();
-  }
-
   function start() {
     first = null; locked = false; matched = 0;
+    nextButton.hidden = true;
     totalPairs = Math.min(NB_PAIRES, DATA.length);
 
     // On tire les paires, puis chaque paire donne 2 cartes (image + mot)
@@ -107,5 +113,21 @@
     shuffle(cards).forEach((c) => grid.append(makeCard(c)));
   }
 
+  function showResults() {
+    const cards = [...grid.querySelectorAll(".card")];
+    cards.sort((a, b) => {
+      const pairOrder = a.dataset.pair.localeCompare(b.dataset.pair, undefined, { numeric: true });
+      if (pairOrder !== 0) return pairOrder;
+      return a.dataset.type === "image" ? -1 : 1;
+    });
+
+    cards.forEach((card) => {
+      card.classList.add("result-card");
+      card.removeAttribute("aria-hidden");
+    });
+    grid.replaceChildren(...cards);
+  }
+
+  nextButton.addEventListener("click", () => window.location.reload());
   start();
 })();

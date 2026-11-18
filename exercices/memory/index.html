@@ -5,23 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Memory</title>
   <link rel="stylesheet" href="/exercices/memory/style.css">
-  <link rel="stylesheet" href="/stylesHeader.css">
-  <link rel="stylesheet" href="/stylesFooter.css">
+  <link rel="stylesheet" href="/exercices/stylesHeaderExercices.css">
 </head>
 
 <body>
   <div id="site-header"></div>
-  <main>
-    <h1>Memory</h1>
-    <p class="consigne">Retrouve les paires : chaque image est associée à son mot.</p>
+  <main class="exercise-frame">
+    <div class="exercise-help">
+      <button class="help-button" type="button" aria-label="Afficher les informations de l'exercice" aria-describedby="exercise-help-text">?</button>
+      <div id="exercise-help-text" class="help-tooltip" role="tooltip">
+        <strong>Memory</strong>
+        <span>Retrouve les paires&nbsp;: chaque image est associée à son mot.</span>
+      </div>
+    </div>
 
     <div id="grid" class="grid"></div>
   </main>
 
+  <button id="next-exercise" class="next-exercise" type="button" aria-label="Recommencer l'exercice" hidden>→</button>
+
   <script src="data.js"></script>
   <script src="script.js"></script>
 
-  <div id="site-footer"></div>
   <script src="/components.js"></script>
 </body>
 </html>
