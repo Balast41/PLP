@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "type": "association",
+  "enonce": "Associe chaque mot de la première liste à sa catégorie ou à son élément lié.",
+  "difficultes": {
+    "1": {"nombre_paires": 3},
+    "2": {"nombre_paires": 4},
+    "3": {"nombre_paires": 5}
+  },
+  "modeles": [
+    {"paires": [["chat", "animal"], ["pomme", "fruit"], ["chaise", "meuble"], ["bus", "véhicule"], ["rose", "fleur"]]},
+    {"paires": [["abeille", "ruche"], ["oiseau", "nid"], ["lapin", "terrier"], ["chien", "niche"], ["poule", "poulailler"]]},
+    {"paires": [["rouge", "couleur"], ["cercle", "forme"], ["trois", "nombre"], ["été", "saison"], ["Paris", "ville"]]},
+    {"paires": [["cuillère", "manger"], ["crayon", "dessiner"], ["ballon", "jouer"], ["savon", "laver"], ["lit", "dormir"]]}
+  ]
+}

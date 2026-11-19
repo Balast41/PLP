@@ -11,7 +11,11 @@ raccordée et aucun déploiement public n'a été réalisé.
 
 ## 1. Le générateur d'exercices
 
-Le générateur utilise de petites listes de données écrites dans le code.
+Le générateur utilise de petites listes de données stockées dans des fichiers
+JSON du dossier `generateur/donnees/`, avec un fichier par famille. Les énoncés
+et paramètres de difficulté y sont aussi définis ; le Python conserve la
+logique de génération. Les fichiers sont chargés à la première utilisation et
+mis en cache jusqu'au redémarrage du processus.
 Il fonctionne localement, sans IA externe, service payant ou dépendance externe.
 Il ne lit pas les PDF pendant son fonctionnement et ne reproduit pas leurs
 illustrations : les familles du MVP sont inspirées de leur classement.

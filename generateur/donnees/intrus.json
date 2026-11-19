@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "type": "intrus",
+  "enonce": "Trouve le mot qui n'appartient pas à la même famille que les autres.",
+  "difficultes": {
+    "1": {"nombre_elements": 3},
+    "2": {"nombre_elements": 4},
+    "3": {"nombre_elements": 5}
+  },
+  "modeles": [
+    {"elements": ["pomme", "poire", "banane", "orange", "fraise"], "intrus": "chaise"},
+    {"elements": ["chat", "chien", "lapin", "cheval", "mouton"], "intrus": "vélo"},
+    {"elements": ["rouge", "bleu", "vert", "jaune", "violet"], "intrus": "carré"},
+    {"elements": ["cercle", "carré", "triangle", "rectangle", "ovale"], "intrus": "fourchette"},
+    {"elements": ["lundi", "mardi", "mercredi", "jeudi", "vendredi"], "intrus": "hiver"},
+    {"elements": ["courir", "sauter", "marcher", "ramper", "grimper"], "intrus": "dormir"}
+  ]
+}
