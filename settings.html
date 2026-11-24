@@ -1,0 +1,31 @@
+<aside id="settingsPanel" class="settingsPanel">
+    <button type="button" id="settingsButton" aria-label="Ouvrir les paramètres" aria-expanded="false" aria-controls="settingsContent">
+        <span class="settingsGear" aria-hidden="true">⚙</span>
+        <span class="settingsButtonLabel">Paramètres</span>
+    </button>
+    <div id="settingsContent" class="settingsContent" aria-hidden="true">
+        <label class="settingsField">
+            Thème
+            <select id="themeSelect" aria-label="Sélectionner le thème">
+                <option value="light">Thème clair</option>
+                <option value="dark">Thème sombre</option>
+            </select>
+        </label>
+        <label class="settingsField">
+            Langue
+            <select id="languageSelect" aria-label="Sélectionner la langue">
+                <option value="fr">Français</option>
+                <option value="en">English</option>
+            </select>
+        </label>
+        <label class="settingsField">
+            Daltonisme
+            <select id="ColorBlind" aria-label="Sélectionner le type de daltonisme">
+                <option value="none">Aucun</option>
+                <option value="protanopia">Protanopie</option>
+                <option value="deuteranopia">Deutéranopie</option>
+                <option value="tritanopia">Tritanopie</option>
+            </select>
+        </label>
+    </div>
+</aside>

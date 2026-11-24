@@ -1,0 +1,149 @@
+#site-footer footer {
+    position: relative;
+}
+
+#site-settings {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 16px;
+    z-index: 20;
+    width: max-content;
+}
+
+.settingsPanel {
+    width: 48px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    transition: width 0.28s ease, border-radius 0.28s ease, box-shadow 0.28s ease;
+}
+
+.settingsPanel.is-open {
+    width: min(320px, calc(100vw - 32px));
+    border-radius: 12px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.2);
+}
+
+#settingsButton {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 48px;
+    padding: 0 12px;
+    color: #fff;
+    background: #007bff;
+    border: 0;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#settingsButton:hover {
+    background: #0056b3;
+}
+
+#settingsButton:focus-visible {
+    box-shadow: inset 0 0 0 3px #80bdff;
+}
+
+#settingsButton .settingsGear {
+    flex: 0 0 24px;
+    font-size: 30px;
+    line-height: 1;
+    text-align: center;
+    transition: transform 0.28s ease;
+}
+
+.settingsPanel.is-open #settingsButton .settingsGear {
+    transform: rotate(45deg);
+}
+
+.settingsButtonLabel {
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.settingsPanel.is-open .settingsButtonLabel {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.settingsContent {
+    display: grid;
+    gap: 10px;
+    max-height: 0;
+    padding: 0 16px;
+    overflow: hidden;
+    visibility: hidden;
+    border-top: 1px solid transparent;
+    box-sizing: border-box;
+    transition: max-height 0.28s ease, padding 0.28s ease, border-color 0.28s ease, visibility 0.28s;
+}
+
+.settingsPanel.is-open .settingsContent {
+    max-height: 280px;
+    padding: 14px 16px 16px;
+    visibility: visible;
+    border-top-color: #e9ecef;
+}
+
+.settingsField {
+    display: grid;
+    gap: 6px;
+    color: #334155;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+#settingsContent select {
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 12px;
+    color: #334155;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: border-color 0.18s ease, background-color 0.18s ease;
+}
+
+#settingsContent select:hover {
+    background: #fff;
+    border-color: #94a3b8;
+}
+
+#settingsContent select:focus-visible {
+    outline: 2px solid #80bdff;
+    outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+    #site-settings {
+        left: 14px;
+    }
+
+    .settingsPanel.is-open {
+        width: min(320px, calc(100vw - 28px));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .settingsPanel,
+    #settingsButton,
+    #settingsButton .settingsGear,
+    .settingsButtonLabel,
+    .settingsContent,
+    #settingsContent select {
+        transition: none;
+    }
+}

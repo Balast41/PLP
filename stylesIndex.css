@@ -18,28 +18,43 @@
 body {
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     font-family: "San Francisco Pro Display", Arial, sans-serif;
     background-color: #ffffff;
     color: #333;
 }
 
+#site-header,
+#site-footer {
+    flex: 0 0 auto;
+}
 
 #hero {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
     background-color: #ffffff;
-    padding: 100px max(20px, calc((100% - 1060px) / 2));
+    padding: clamp(20px, 5vh, 64px) max(20px, calc((100% - 1060px) / 2));
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: center;
-    gap: 20px;
-    min-height: 75vh;
+    gap: clamp(12px, 2vw, 24px);
     box-sizing: border-box;
 }
 
 #heroLeft {
+    min-width: 0;
     text-align: left;
 }
 
 #heroRight {
+    min-width: 0;
     text-align: center;
 }
 
@@ -47,21 +62,28 @@ body {
     display: block;
     width: 100%;
     max-width: 500px;
+    max-height: 55vh;
     height: auto;
-    margin: 0;
+    margin: 0 auto;
 }
 
 h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    line-height: 1.12;
+    margin: 0 0 16px;
     font-family: "SF Pro Heavy", Arial, sans-serif;
+}
+
+#heroLeft > p {
+    margin: 0;
+    line-height: 1.45;
 }
 
 #textPanels {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 24px;
+    gap: 8px;
+    margin-top: 18px;
 }
 
 #textPanels p {
@@ -69,13 +91,110 @@ h1 {
     color: #123b73;
     font-weight: 700;
     text-align: center;
+    font-size: clamp(0.7rem, 1.3vw, 0.9rem);
 }
-
-
 
 @media (max-width: 700px) {
     #hero {
-        grid-template-columns: 1fr;
-        padding: 60px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: clamp(8px, 2vh, 16px);
+        padding: clamp(10px, 2.5vh, 20px) 20px;
+    }
+
+    #heroLeft {
+        flex: 0 0 auto;
+        align-self: stretch;
+    }
+
+    h1 {
+        font-size: clamp(1.4rem, 6vw, 2rem);
+        margin-bottom: 10px;
+    }
+
+    #heroLeft > p {
+        font-size: clamp(0.8rem, 3.2vw, 0.95rem);
+        line-height: 1.35;
+    }
+
+    #textPanels {
+        gap: 6px;
+        margin-top: 12px;
+    }
+
+    #textPanels p {
+        font-size: clamp(0.62rem, 2.7vw, 0.8rem);
+    }
+
+    #heroRight {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1 1 0;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    #heroRight img {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: min(100%, 28vh, 250px);
+        object-fit: contain;
+    }
+
+    footer {
+        padding: 10px 12px;
+    }
+
+    .footerLinks {
+        gap: 6px 14px;
+    }
+}
+
+@media (max-width: 360px) {
+    #hero {
+        padding-right: 14px;
+        padding-left: 14px;
+    }
+
+    #textPanels {
+        gap: 4px;
+    }
+
+    #textPanels p {
+        font-size: 0.6rem;
+    }
+}
+
+@media (max-height: 500px) and (max-width: 700px) {
+    #hero {
+        padding-top: 6px;
+        padding-bottom: 6px;
+        gap: 6px;
+    }
+
+    h1 {
+        font-size: clamp(1.15rem, 5vw, 1.6rem);
+        margin-bottom: 6px;
+    }
+
+    #heroLeft > p {
+        font-size: 0.75rem;
+        line-height: 1.25;
+    }
+
+    #textPanels {
+        margin-top: 6px;
+    }
+
+    #heroRight img {
+        max-height: min(22vh, 110px);
+    }
+
+    footer {
+        padding-top: 6px;
+        padding-bottom: 6px;
     }
 }

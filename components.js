@@ -18,6 +18,8 @@ async function loadComponents() {
         injectComponent("#site-footer", "/footer.html")
     ]);
 
+    await injectComponent("#site-settings", "/settings.html");
+
     const pageScript = document.createElement("script");
     pageScript.src = "/script.js";
     pageScript.onerror = () => console.error("Impossible de charger script.js");
