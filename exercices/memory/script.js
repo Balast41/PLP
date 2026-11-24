@@ -68,28 +68,30 @@
     if (!first) { first = card; return; }
 
     const second = card;
-    if (first.dataset.pair === second.dataset.pair) {
+    const pairFirst = first;
+    first = null;
+    if (pairFirst.dataset.pair === second.dataset.pair) {
+      locked = true;
       setTimeout(() => {
-      [first, second].forEach((c) => {
-        c.classList.add("matched");
-        c.setAttribute("aria-hidden", "true");
-      });
-      first = null;
-      matched++;
-      if (matched === totalPairs) {
-        locked = true;
-        showResults();
-        setTimeout(() => {
-          nextButton.hidden = false;
-        }, DELAI_FIN_MS);
-      }
+        [pairFirst, second].forEach((c) => {
+          c.classList.add("matched");
+          c.setAttribute("aria-hidden", "true");
+        });
+        matched++;
+        if (matched === totalPairs) {
+          locked = true;
+          showResults();
+          setTimeout(() => {
+            nextButton.hidden = false;
+          }, DELAI_FIN_MS);
+        } else {
+          locked = false;
+        }
       }, DELAI_CARTES_DIFFERENTES_MS);
     } else {
       locked = true; // verrou : évite de retourner une 3e carte
-      const a = first;
-      first = null;
       setTimeout(() => {
-        [a, second].forEach((c) => {
+        [pairFirst, second].forEach((c) => {
           c.classList.remove("flipped");
           c.setAttribute("aria-label", "Carte face cachée");
         });
@@ -98,13 +100,26 @@
     }
   }
 
-  function start() {
+  async function start() {
     first = null; locked = false; matched = 0;
     nextButton.hidden = true;
-    totalPairs = Math.min(NB_PAIRES, DATA.length);
+    grid.innerHTML = "";
 
-    // On tire les paires, puis chaque paire donne 2 cartes (image + mot)
-    const chosen = shuffle(DATA).slice(0, totalPairs);
+    let chosen;
+    try {
+      const exercise = await ExerciseGenerator.generate("memory");
+      chosen = exercise.propositions.elements.map((left) => ({
+        id: left,
+        image: left,
+        mot: exercise.bonne_reponse[left]
+      }));
+    } catch (error) {
+      console.warn("Générateur indisponible, données locales utilisées.", error);
+      totalPairs = Math.min(NB_PAIRES, DATA.length);
+      chosen = shuffle(DATA).slice(0, totalPairs);
+    }
+
+    totalPairs = chosen.length;
     const cards = chosen.flatMap((p) => [
       { pairId: p.id, type: "image", content: p.image },
       { pairId: p.id, type: "word", content: p.mot }

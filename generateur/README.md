@@ -20,6 +20,12 @@ Types : `association`, `intrus`, `denombrement`. Sans type, le choix est
 aléatoire. Difficultés : entiers de 1 à 3. Champs retournés : `identifiant`,
 `type`, `difficulte`, `enonce`, `propositions`, `bonne_reponse`.
 
+Les données, les énoncés et les niveaux sont stockés dans les fichiers JSON du
+dossier [`donnees/`](donnees/README.md), à raison d'un fichier par type. Pour
+modifier le catalogue, éditer ces fichiers puis redémarrer le serveur : les
+données sont mises en cache par processus. Les chemins ne dépendent pas du
+répertoire de lancement. Le contrat de `generate_exercise` reste inchangé.
+
 Les données sont statiques et locales. Les exercices sont textuels, les tirages
 peuvent se répéter et les niveaux ne sont pas étalonnés pédagogiquement.
 Ce module n'est pas relié aux pages interactives du site.

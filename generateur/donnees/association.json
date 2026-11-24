@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "type": "association",
+  "enonce": "Associe chaque mot de la première liste à sa catégorie ou à son élément lié.",
+  "difficultes": {
+    "1": {"nombre_paires": 3},
+    "2": {"nombre_paires": 4},
+    "3": {"nombre_paires": 5}
+  },
+  "modeles": [
+    {
+      "paires": [
+        ["/exercices/association/img/cheveux.png", "Cheveux"],
+        ["/exercices/association/img/cheville.png", "Cheville"],
+        ["/exercices/association/img/epaule.png", "Épaule"],
+        ["/exercices/association/img/nez.png", "Nez"],
+        ["/exercices/association/img/nombril.png", "Nombril"],
+        ["/exercices/association/img/oeil.png", "Oeil"],
+        ["/exercices/association/img/oreille.png", "Oreille"],
+        ["/exercices/association/img/poignet.png", "Poignet"]
+      ]
+    }
+  ]
+}

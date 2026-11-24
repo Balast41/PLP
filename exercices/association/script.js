@@ -10,6 +10,8 @@
 
   let completedPairs = 0;
   let dragState = null;
+  let exercise = null;
+  let pairs = [];
 
   // Mélange de Fisher-Yates (non biaisé, contrairement à sort(random)).
   function shuffle(array) {
@@ -113,7 +115,13 @@
     dragState = null;
 
     if (!target) return;
-    if (source.dataset.id === target.dataset.id) {
+    const left = source.dataset.side === "image" ? source : target;
+    const right = source.dataset.side === "word" ? source : target;
+    const isCorrect = exercise
+      ? exercise.bonne_reponse[left.dataset.value] === right.dataset.value
+      : source.dataset.id === target.dataset.id;
+
+    if (isCorrect) {
       completePair(source, target);
       return;
     }
@@ -149,22 +157,42 @@
     pair.append(imageEl, wordEl);
     answersList.prepend(pair);
     completedPairs += 1;
-
-    if (completedPairs === DATA.length) {
+    if (completedPairs === pairs.length) {
       nextButton.hidden = false;
     }
   }
 
-  function start() {
+  async function start() {
     completedPairs = 0;
     nextButton.hidden = true;
-    exerciseFrame.style.setProperty("--association-rows", DATA.length);
     colImages.innerHTML = "";
     colWords.innerHTML = "";
     answersList.innerHTML = "";
 
-    shuffle(DATA).forEach((p) => colImages.append(makeItem(p, "image")));
-    shuffle(DATA).forEach((p) => colWords.append(makeItem(p, "word")));
+    try {
+      exercise = await ExerciseGenerator.generate("association");
+      pairs = exercise.propositions.elements.map((left) => ({
+        id: left,
+        image: left,
+        mot: exercise.bonne_reponse[left]
+      }));
+    } catch (error) {
+      console.warn("Générateur indisponible, données locales utilisées.", error);
+      exercise = null;
+      pairs = DATA;
+    }
+
+    exerciseFrame.style.setProperty("--association-rows", pairs.length);
+    shuffle(pairs).forEach((p) => {
+      const item = makeItem(p, "image");
+      item.dataset.value = p.image;
+      colImages.append(item);
+    });
+    shuffle(pairs).forEach((p) => {
+      const item = makeItem(p, "word");
+      item.dataset.value = p.mot;
+      colWords.append(item);
+    });
   }
 
   document.addEventListener("pointermove", moveDrag);

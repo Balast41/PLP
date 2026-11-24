@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "type": "denombrement",
+  "enonce": "Compte les {nom} : {elements}",
+  "difficultes": {
+    "1": {"minimum": 1, "maximum": 5},
+    "2": {"minimum": 4, "maximum": 10},
+    "3": {"minimum": 8, "maximum": 20}
+  },
+  "modeles": [
+    {"element": "étoile", "pluriel": "étoiles"},
+    {"element": "pomme", "pluriel": "pommes"},
+    {"element": "ballon", "pluriel": "ballons"},
+    {"element": "fleur", "pluriel": "fleurs"},
+    {"element": "cube", "pluriel": "cubes"}
+  ]
+}

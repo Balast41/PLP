@@ -2,30 +2,40 @@
 
 from __future__ import annotations
 
+import json
 import random
 import uuid
+from functools import lru_cache
+from pathlib import Path
 from typing import Any, Callable
 
 
 EXERCISE_TYPES = ("association", "intrus", "denombrement")
 
-_ASSOCIATIONS = (
-    (("chat", "animal"), ("pomme", "fruit"), ("chaise", "meuble"), ("bus", "véhicule"), ("rose", "fleur")),
-    (("abeille", "ruche"), ("oiseau", "nid"), ("lapin", "terrier"), ("chien", "niche"), ("poule", "poulailler")),
-    (("rouge", "couleur"), ("cercle", "forme"), ("trois", "nombre"), ("été", "saison"), ("Paris", "ville")),
-    (("cuillère", "manger"), ("crayon", "dessiner"), ("ballon", "jouer"), ("savon", "laver"), ("lit", "dormir")),
-)
+_DATA_DIRECTORY = Path(__file__).resolve().parent / "donnees"
 
-_INTRUS = (
-    (("pomme", "poire", "banane", "orange", "fraise"), "chaise"),
-    (("chat", "chien", "lapin", "cheval", "mouton"), "vélo"),
-    (("rouge", "bleu", "vert", "jaune", "violet"), "carré"),
-    (("cercle", "carré", "triangle", "rectangle", "ovale"), "fourchette"),
-    (("lundi", "mardi", "mercredi", "jeudi", "vendredi"), "hiver"),
-    (("courir", "sauter", "marcher", "ramper", "grimper"), "dormir"),
-)
-
-_COUNTABLE_ITEMS = ("étoile", "pomme", "ballon", "fleur", "cube")
+@lru_cache(maxsize=len(EXERCISE_TYPES))
+def _load_template(exercise_type: str) -> dict[str, Any]:
+    """Charge le catalogue local une fois par type et par processus."""
+    path = _DATA_DIRECTORY / f"{exercise_type}.json"
+    try:
+        with path.open(encoding="utf-8") as source:
+            template = json.load(source)
+    except (OSError, ValueError) as error:
+        raise ValueError(f"Impossible de charger le catalogue {path.name} : {error}") from error
+    if (
+        not isinstance(template, dict)
+        or template.get("version") != 1
+        or template.get("type") != exercise_type
+        or not isinstance(template.get("enonce"), str)
+        or not template["enonce"].strip()
+        or not isinstance(template.get("modeles"), list)
+        or not template["modeles"]
+        or not isinstance(template.get("difficultes"), dict)
+        or set(template["difficultes"]) != {"1", "2", "3"}
+    ):
+        raise ValueError(f"Structure de catalogue invalide : {path.name}")
+    return template
 
 
 def _identifier() -> str:
@@ -33,8 +43,9 @@ def _identifier() -> str:
 
 
 def _association(difficulty: int) -> dict[str, Any]:
-    pairs = list(random.choice(_ASSOCIATIONS))
-    pair_count = min(2 + difficulty, len(pairs))
+    template = _load_template("association")
+    pairs = list(random.choice(template["modeles"])["paires"])
+    pair_count = template["difficultes"][str(difficulty)]["nombre_paires"]
     pairs = pairs[:pair_count]
     left = [left_item for left_item, _ in pairs]
     right = [right_item for _, right_item in pairs]
@@ -44,51 +55,75 @@ def _association(difficulty: int) -> dict[str, Any]:
         "identifiant": _identifier(),
         "type": "association",
         "difficulte": difficulty,
-        "enonce": "Associe chaque mot de la première liste à sa catégorie ou à son élément lié.",
+        "enonce": template["enonce"],
         "propositions": {"elements": left, "correspondances": right},
         "bonne_reponse": {left_item: right_item for left_item, right_item in pairs},
     }
 
 
 def _intrus(difficulty: int) -> dict[str, Any]:
-    related, odd_one_out = random.choice(_INTRUS)
-    related_count = min(2 + difficulty, len(related))
+    template = _load_template("intrus")
+    model = random.choice(template["modeles"])
+    related, odd_one_out = model["elements"], model["intrus"]
+    related_count = template["difficultes"][str(difficulty)]["nombre_elements"]
     choices = list(related[:related_count]) + [odd_one_out]
     random.shuffle(choices)
     return {
         "identifiant": _identifier(),
         "type": "intrus",
         "difficulte": difficulty,
-        "enonce": "Trouve le mot qui n'appartient pas à la même famille que les autres.",
+        "enonce": template["enonce"],
         "propositions": choices,
         "bonne_reponse": odd_one_out,
     }
 
 
 def _denombrement(difficulty: int) -> dict[str, Any]:
-    maximum = (5, 10, 20)[difficulty - 1]
-    minimum = (1, 4, 8)[difficulty - 1]
+    template = _load_template("denombrement")
+    level = template["difficultes"][str(difficulty)]
+    maximum, minimum = level["maximum"], level["minimum"]
     count = random.randint(minimum, maximum)
-    item = random.choice(_COUNTABLE_ITEMS)
+    model = random.choice(template["modeles"])
+    item = model["element"]
     distractors = {max(0, count - 2), max(0, count - 1), count + 1, count + 2}
     distractors.discard(count)
     choices = random.sample(sorted(distractors), 3) + [count]
     random.shuffle(choices)
-    plural = item if count == 1 else item + "s"
+    plural = item if count == 1 else model["pluriel"]
     return {
         "identifiant": _identifier(),
         "type": "denombrement",
         "difficulte": difficulty,
-        "enonce": f"Compte les {plural} : " + " | ".join([item] * count),
+        "enonce": template["enonce"].format(nom=plural, elements=" | ".join([item] * count)),
         "propositions": choices,
         "bonne_reponse": count,
     }
 
 
+def _memory(difficulty: int) -> dict[str, Any]:
+    template = _load_template("memory")
+    level = template["difficultes"][str(difficulty)]
+    pair_count = level["nombre_paires"]
+    pairs = list(random.choice(template["modeles"])["paires"])
+    pairs = pairs[:pair_count]
+    left = [left_item for left_item, _ in pairs]
+    right = [right_item for _, right_item in pairs]
+    random.shuffle(left)
+    random.shuffle(right)
+    return {
+        "identifiant": _identifier(),
+        "type": "memory",
+        "difficulte": difficulty,
+        "enonce": template["enonce"],
+        "propositions": {"elements": left, "correspondances": right},
+        "bonne_reponse": {left_item: right_item for left_item, right_item in pairs},
+    }
+
 _GENERATORS: dict[str, Callable[[int], dict[str, Any]]] = {
     "association": _association,
     "intrus": _intrus,
     "denombrement": _denombrement,
+    "memory": _memory,
 }
 
 

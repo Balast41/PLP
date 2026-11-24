@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "type": "memory",
+  "enonce": "Trouve les paires d'éléments identiques.",
+  "difficultes": {
+    "1": {"nombre_paires": 3},
+    "2": {"nombre_paires": 4},
+    "3": {"nombre_paires": 5}
+  },
+  "modeles": [
+    {"paires": [["🐟", "poisson"], ["🌸", "fleur"], ["⭐", "étoile"], ["✈️", "avion"], ["🚲", "vélo"]]},
+    {"paires": [["🌙", "lune"], ["🍌", "banane"], ["🔑", "clé"], ["🐶", "chien"], ["🐔", "poule"]]},
+    {"paires": [["🟥", "rouge"], ["3️⃣", "trois"], ["🛏️", "lit"], ["🥄", "cuillère"], ["🚪", "porte"]]},
+    {"paires": [["🧼", "savon"], ["⚽", "ballon"], ["🥕", "carotte"], ["🍎", "pomme"], ["✏️", "crayon"]]}
+  ]
+}
