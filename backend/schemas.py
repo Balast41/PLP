@@ -39,6 +39,17 @@ class Correction(BaseModel):
     bonne_reponse: Answer
 
 
+class PairAnswer(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    gauche: StrictStr = Field(description="Élément de gauche proposé.")
+    droite: StrictStr = Field(description="Correspondance proposée.")
+
+
+class PairCorrection(BaseModel):
+    identifiant: str
+    correcte: bool
+
+
 class Catalog(BaseModel):
     types: list[ExerciseType]
     difficultes: list[int]

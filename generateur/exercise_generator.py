@@ -100,10 +100,30 @@ def _denombrement(difficulty: int) -> dict[str, Any]:
     }
 
 
+def _memory(difficulty: int) -> dict[str, Any]:
+    template = _load_template("memory")
+    level = template["difficultes"][str(difficulty)]
+    pair_count = level["nombre_paires"]
+    pairs = list(random.choice(template["modeles"])["paires"])
+    pairs = pairs[:pair_count]
+    left = [left_item for left_item, _ in pairs]
+    right = [right_item for _, right_item in pairs]
+    random.shuffle(left)
+    random.shuffle(right)
+    return {
+        "identifiant": _identifier(),
+        "type": "memory",
+        "difficulte": difficulty,
+        "enonce": template["enonce"],
+        "propositions": {"elements": left, "correspondances": right},
+        "bonne_reponse": {left_item: right_item for left_item, right_item in pairs},
+    }
+
 _GENERATORS: dict[str, Callable[[int], dict[str, Any]]] = {
     "association": _association,
     "intrus": _intrus,
     "denombrement": _denombrement,
+    "memory": _memory,
 }
 
 

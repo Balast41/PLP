@@ -5,15 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Trouve l'intrus</title>
   <link rel="stylesheet" href="/exercices/intrus/style.css">
-  <link rel="stylesheet" href="/stylesHeader.css">
-  <link rel="stylesheet" href="/stylesFooter.css">
+  <link rel="stylesheet" href="/exercices/stylesHeaderExercices.css">
 
 </head>
 <body>
   <div id="site-header"></div>
-  <main>
-    <h1>Trouve l'intrus</h1>
-    <p class="consigne">Un seul élément n'a pas de lien avec les autres. Lequel ?</p>
+  <main class="exercise-frame">
+    <div class="exercise-help">
+      <button class="help-button" type="button" aria-label="Afficher les informations de l'exercice" aria-describedby="exercise-help-text">?</button>
+      <div id="exercise-help-text" class="help-tooltip" role="tooltip">
+        <strong>Trouve l'intrus</strong>
+        <span>Un seul élément n'a pas de lien avec les autres. Lequel&nbsp;?</span>
+      </div>
+    </div>
 
     <p id="progress" class="progress">Question 1 / 1</p>
     <div id="choices" class="choices"></div>
@@ -22,10 +26,12 @@
     <p id="sr" class="sr-only" role="status"></p>
   </main>
 
+  <button id="next-exercise" class="next-exercise" type="button" aria-label="Recommencer l'exercice" hidden>→</button>
+
   <script src="data.js"></script>
+  <script src="/generateur/exercise_generator.js"></script>
   <script src="script.js"></script>
 
-  <div id="site-footer"></div>
   <script src="/components.js"></script>
 </body>
 </html>

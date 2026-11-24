@@ -8,9 +8,17 @@
     "3": {"nombre_paires": 5}
   },
   "modeles": [
-    {"paires": [["chat", "animal"], ["pomme", "fruit"], ["chaise", "meuble"], ["bus", "véhicule"], ["rose", "fleur"]]},
-    {"paires": [["abeille", "ruche"], ["oiseau", "nid"], ["lapin", "terrier"], ["chien", "niche"], ["poule", "poulailler"]]},
-    {"paires": [["rouge", "couleur"], ["cercle", "forme"], ["trois", "nombre"], ["été", "saison"], ["Paris", "ville"]]},
-    {"paires": [["cuillère", "manger"], ["crayon", "dessiner"], ["ballon", "jouer"], ["savon", "laver"], ["lit", "dormir"]]}
+    {
+      "paires": [
+        ["/exercices/association/img/cheveux.png", "Cheveux"],
+        ["/exercices/association/img/cheville.png", "Cheville"],
+        ["/exercices/association/img/epaule.png", "Épaule"],
+        ["/exercices/association/img/nez.png", "Nez"],
+        ["/exercices/association/img/nombril.png", "Nombril"],
+        ["/exercices/association/img/oeil.png", "Oeil"],
+        ["/exercices/association/img/oreille.png", "Oreille"],
+        ["/exercices/association/img/poignet.png", "Poignet"]
+      ]
+    }
   ]
 }

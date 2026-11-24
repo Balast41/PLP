@@ -5,27 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Association image / mot</title>
   <link rel="stylesheet" href="/exercices/association/style.css">
-  <link rel="stylesheet" href="/stylesHeader.css">
-  <link rel="stylesheet" href="/stylesFooter.css">
+  <link rel="stylesheet" href="/exercices/stylesHeaderExercices.css">
 </head>
 
 <body>
   <div id="site-header"></div>
-  <main>
-    <h1>Associe chaque image à son mot</h1>
-    <p class="consigne">Clique sur une image, puis sur le mot qui lui correspond (ou l'inverse).</p>
+  <main class="exercise-frame">
+    <div class="exercise-help">
+      <button class="help-button" type="button" aria-label="Afficher les informations de l'exercice" aria-describedby="exercise-help-text">?</button>
+      <div id="exercise-help-text" class="help-tooltip" role="tooltip">
+        <strong>Associe chaque image à son mot</strong>
+        <span>Clique sur une image, puis sur le mot qui lui correspond (ou l'inverse).</span>
+      </div>
+    </div>
+
+    <section class="answers" aria-label="Réponses trouvées">
+      <div id="answers-list" class="answers-list"></div>
+    </section>
 
     <div id="board" class="board">
-      <svg id="lines" class="lines" aria-hidden="true"></svg>
       <div id="col-images" class="col"></div>
       <div id="col-words" class="col"></div>
     </div>
   </main>
 
+  <button id="next-exercise" class="next-exercise" type="button" aria-label="Recommencer l'exercice" hidden>→</button>
+
   <script src="/exercices/association/data.js"></script>
+  <script src="/generateur/exercise_generator.js"></script>
   <script src="/exercices/association/script.js"></script>
 
-  <div id="site-footer"></div>
   <script src="/components.js"></script>
 </body>
 </html>

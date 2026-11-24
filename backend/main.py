@@ -12,6 +12,7 @@ from generateur.exercise_generator import EXERCISE_TYPES, generate_exercise
 
 from .schemas import (
     AnswerRequest, Catalog, Correction, Error, Exercise, GenerateRequest, Health,
+    PairAnswer, PairCorrection,
 )
 from .store import ExerciseStore
 from .database import Database
@@ -79,6 +80,18 @@ def create_app(db_path: str | None = None) -> FastAPI:
         return Correction(
             identifiant=exercise["identifiant"],
             correcte=submitted == expected, bonne_reponse=expected,
+        )
+
+    @app.post("/api/v1/exercises/{identifier}/pairs", response_model=PairCorrection, responses={404: {"model": Error}}, tags=["Exercices"], summary="Vérifier une paire d'association")
+    def correct_pair(identifier: UUID, payload: PairAnswer, request: Request):
+        """Vérifie une paire sans révéler les autres bonnes réponses."""
+        exercise = find(identifier, request)
+        if exercise["type"] != "association":
+            raise HTTPException(422, "La vérification de paire est réservée aux associations.")
+        expected = exercise["bonne_reponse"]
+        return PairCorrection(
+            identifiant=exercise["identifiant"],
+            correcte=expected.get(payload.gauche) == payload.droite,
         )
 
     return app

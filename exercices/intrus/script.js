@@ -7,9 +7,11 @@
   const choicesEl = document.getElementById("choices");
   const progressEl = document.getElementById("progress");
   const srEl = document.getElementById("sr");
+  const nextButton = document.getElementById("next-exercise");
 
   let questions = [];
   let index = 0;
+  let exercise = null;
 
   function shuffle(array) {
     const a = [...array];
@@ -32,11 +34,19 @@
     return { image: null, text: item, label: item };
   }
 
+  function isSameChoice(left, right) {
+    if (left === right) return true;
+    if (left && right && typeof left === "object" && typeof right === "object") {
+      return left.image === right.image;
+    }
+    return normalize(left).label === normalize(right).label;
+  }
+
   // Construit les 5 propositions d'une question. Le booléen isIntrus identifie
   // la bonne réponse sans comparer de texte (utile quand ce sont des images).
   function buildChoices(q) {
-    if (!Array.isArray(q.memes) || q.memes.length !== 4) {
-      console.warn("Question à corriger : il faut exactement 4 éléments dans « memes »", q);
+    if (!Array.isArray(q.memes) || q.memes.length < 1) {
+      console.warn("Question à corriger : il faut au moins un élément dans « memes »", q);
     }
     const items = [
       ...q.memes.map((m) => ({ ...normalize(m), isIntrus: false })),
@@ -74,33 +84,63 @@
   function answer(item) {
     const buttons = [...choicesEl.children];
 
-    // On verrouille les boutons et on met seulement la bonne réponse en évidence
     buttons.forEach((b) => {
       b.disabled = true;
-      if (b._item.isIntrus) b.classList.add("correct");
+      const isIntrus = exercise
+        ? isSameChoice(
+            b._item.image ? { image: b._item.image, alt: b._item.label } : b._item.text,
+            exercise.bonne_reponse
+          )
+        : b._item.isIntrus;
+      if (isIntrus) b.classList.add("correct");
     });
 
-    const intrus = buttons.find((b) => b._item.isIntrus)._item;
-    srEl.textContent = item.isIntrus
+    const intrus = exercise
+      ? exercise.bonne_reponse
+      : buttons.find((b) => b._item.isIntrus)._item.label;
+    const isCorrect = exercise
+      ? isSameChoice(
+          item.image ? { image: item.image, alt: item.label } : item.text,
+          exercise.bonne_reponse
+        )
+      : item.isIntrus;
+    srEl.textContent = isCorrect
       ? "Bonne réponse."
-      : `L'intrus était : ${intrus.label}.`;
+      : `L'intrus était : ${typeof intrus === "string" ? intrus : intrus.alt || intrus.image}.`;
 
-    setTimeout(next, DELAI_MS);
+    nextButton.hidden = false;
   }
 
   function next() {
+    nextButton.hidden = true;
     index++;
     if (index < questions.length) return showQuestion();
-    // Fin de l'exercice : exercice suivant, ou nouveau tour
-    if (typeof SUIVANT === "string" && SUIVANT) window.location.href = SUIVANT;
-    else start();
+
   }
 
-  function start() {
-    questions = shuffle(DATA);
+  async function start() {
     index = 0;
+    nextButton.hidden = true;
+    try {
+      exercise = await ExerciseGenerator.generate("intrus");
+      questions = [{
+        memes: exercise.propositions.filter((choice) => choice !== exercise.bonne_reponse),
+        intrus: exercise.bonne_reponse
+      }];
+    } catch (error) {
+      console.warn("Générateur indisponible, données locales utilisées.", error);
+      exercise = null;
+      questions = shuffle(DATA);
+    }
     showQuestion();
   }
+  nextButton.addEventListener("click", () => {
+    if (index < questions.length - 1) {
+      next();
+    } else{
+      window.location.reload();
+    }
+  });
 
   start();
 })();

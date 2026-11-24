@@ -6,6 +6,7 @@
   const DELAI_FIN_MS = 1200;               // avant de passer à la suite une fois fini
 
   const grid = document.getElementById("grid");
+  const nextButton = document.getElementById("next-exercise");
 
   let first = null;   // première carte retournée
   let locked = false; // bloque les clics pendant la comparaison
@@ -40,6 +41,7 @@
     btn.type = "button";
     btn.className = "card";
     btn.dataset.pair = card.pairId;
+    btn.dataset.type = card.type;
     btn.dataset.label = card.type === "image" ? "image" : card.content;
     btn.setAttribute("aria-label", "Carte face cachée");
 
@@ -66,20 +68,30 @@
     if (!first) { first = card; return; }
 
     const second = card;
-    if (first.dataset.pair === second.dataset.pair) {
-      [first, second].forEach((c) => c.classList.add("matched"));
-      first = null;
-      matched++;
-      if (matched === totalPairs) {
-        locked = true;
-        setTimeout(goNext, DELAI_FIN_MS);
-      }
+    const pairFirst = first;
+    first = null;
+    if (pairFirst.dataset.pair === second.dataset.pair) {
+      locked = true;
+      setTimeout(() => {
+        [pairFirst, second].forEach((c) => {
+          c.classList.add("matched");
+          c.setAttribute("aria-hidden", "true");
+        });
+        matched++;
+        if (matched === totalPairs) {
+          locked = true;
+          showResults();
+          setTimeout(() => {
+            nextButton.hidden = false;
+          }, DELAI_FIN_MS);
+        } else {
+          locked = false;
+        }
+      }, DELAI_CARTES_DIFFERENTES_MS);
     } else {
       locked = true; // verrou : évite de retourner une 3e carte
-      const a = first;
-      first = null;
       setTimeout(() => {
-        [a, second].forEach((c) => {
+        [pairFirst, second].forEach((c) => {
           c.classList.remove("flipped");
           c.setAttribute("aria-label", "Carte face cachée");
         });
@@ -88,17 +100,26 @@
     }
   }
 
-  function goNext() {
-    if (typeof SUIVANT === "string" && SUIVANT) window.location.href = SUIVANT;
-    else start();
-  }
-
-  function start() {
+  async function start() {
     first = null; locked = false; matched = 0;
-    totalPairs = Math.min(NB_PAIRES, DATA.length);
+    nextButton.hidden = true;
+    grid.innerHTML = "";
 
-    // On tire les paires, puis chaque paire donne 2 cartes (image + mot)
-    const chosen = shuffle(DATA).slice(0, totalPairs);
+    let chosen;
+    try {
+      const exercise = await ExerciseGenerator.generate("memory");
+      chosen = exercise.propositions.elements.map((left) => ({
+        id: left,
+        image: left,
+        mot: exercise.bonne_reponse[left]
+      }));
+    } catch (error) {
+      console.warn("Générateur indisponible, données locales utilisées.", error);
+      totalPairs = Math.min(NB_PAIRES, DATA.length);
+      chosen = shuffle(DATA).slice(0, totalPairs);
+    }
+
+    totalPairs = chosen.length;
     const cards = chosen.flatMap((p) => [
       { pairId: p.id, type: "image", content: p.image },
       { pairId: p.id, type: "word", content: p.mot }
@@ -107,5 +128,21 @@
     shuffle(cards).forEach((c) => grid.append(makeCard(c)));
   }
 
+  function showResults() {
+    const cards = [...grid.querySelectorAll(".card")];
+    cards.sort((a, b) => {
+      const pairOrder = a.dataset.pair.localeCompare(b.dataset.pair, undefined, { numeric: true });
+      if (pairOrder !== 0) return pairOrder;
+      return a.dataset.type === "image" ? -1 : 1;
+    });
+
+    cards.forEach((card) => {
+      card.classList.add("result-card");
+      card.removeAttribute("aria-hidden");
+    });
+    grid.replaceChildren(...cards);
+  }
+
+  nextButton.addEventListener("click", () => window.location.reload());
   start();
 })();

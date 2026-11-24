@@ -8,11 +8,50 @@
     "3": {"nombre_elements": 5}
   },
   "modeles": [
-    {"elements": ["pomme", "poire", "banane", "orange", "fraise"], "intrus": "chaise"},
-    {"elements": ["chat", "chien", "lapin", "cheval", "mouton"], "intrus": "vélo"},
-    {"elements": ["rouge", "bleu", "vert", "jaune", "violet"], "intrus": "carré"},
-    {"elements": ["cercle", "carré", "triangle", "rectangle", "ovale"], "intrus": "fourchette"},
-    {"elements": ["lundi", "mardi", "mercredi", "jeudi", "vendredi"], "intrus": "hiver"},
-    {"elements": ["courir", "sauter", "marcher", "ramper", "grimper"], "intrus": "dormir"}
+    {
+      "elements": [
+        {"image": "/exercices/intrus/img/filled_circle.png", "alt": "cercle noir"},
+        {"image": "/exercices/intrus/img/filled_circle.png", "alt": "cercle noir"},
+        {"image": "/exercices/intrus/img/filled_circle.png", "alt": "cercle noir"},
+        {"image": "/exercices/intrus/img/filled_circle.png", "alt": "cercle noir"}
+      ],
+      "intrus": {"image": "/exercices/intrus/img/filled_triangle.png", "alt": "triangle noir"}
+    },
+    {
+      "elements": [
+        {"image": "/exercices/intrus/img/filled_triangle.png", "alt": "triangle noir"},
+        {"image": "/exercices/intrus/img/filled_triangle.png", "alt": "triangle noir"},
+        {"image": "/exercices/intrus/img/filled_triangle.png", "alt": "triangle noir"},
+        {"image": "/exercices/intrus/img/filled_triangle.png", "alt": "triangle noir"}
+      ],
+      "intrus": {"image": "/exercices/intrus/img/filled_square.png", "alt": "carre noir"}
+    },
+    {
+      "elements": [
+        {"image": "/exercices/intrus/img/filled_square.png", "alt": "carre noir"},
+        {"image": "/exercices/intrus/img/filled_square.png", "alt": "carre noir"},
+        {"image": "/exercices/intrus/img/filled_square.png", "alt": "carre noir"},
+        {"image": "/exercices/intrus/img/filled_square.png", "alt": "carre noir"}
+      ],
+      "intrus": {"image": "/exercices/intrus/img/filled_circle.png", "alt": "cercle noir"}
+    },
+    {
+      "elements": [
+        {"image": "/exercices/intrus/img/empty_circle.png", "alt": "cercle vide"},
+        {"image": "/exercices/intrus/img/empty_circle.png", "alt": "cercle vide"},
+        {"image": "/exercices/intrus/img/empty_circle.png", "alt": "cercle vide"},
+        {"image": "/exercices/intrus/img/empty_circle.png", "alt": "cercle vide"}
+      ],
+      "intrus": {"image": "/exercices/intrus/img/empty_triangle.png", "alt": "triangle vide"}
+    },
+    {
+      "elements": [
+        {"image": "/exercices/intrus/img/empty_triangle.png", "alt": "triangle vide"},
+        {"image": "/exercices/intrus/img/empty_triangle.png", "alt": "triangle vide"},
+        {"image": "/exercices/intrus/img/empty_triangle.png", "alt": "triangle vide"},
+        {"image": "/exercices/intrus/img/empty_triangle.png", "alt": "triangle vide"}
+      ],
+      "intrus": {"image": "/exercices/intrus/img/empty_square.png", "alt": "carre vide"}
+    }
   ]
 }
