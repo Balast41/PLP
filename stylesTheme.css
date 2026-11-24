@@ -1,0 +1,170 @@
+body[data-theme="dark"] {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --ink: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #60a5fa;
+    --ok: #34d399;
+    --ko: #fb7185;
+    color: #e2e8f0;
+    color-scheme: dark;
+    background-color: #0f172a;
+}
+
+body,
+header,
+footer,
+#hero,
+#loginForm,
+#registerForm {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+body[data-theme="dark"] header {
+    color: #e2e8f0;
+    background-color: #111827;
+    border-color: #334155;
+}
+
+body[data-theme="dark"] .headerButtons button,
+body[data-theme="dark"] #registerButton {
+    color: #e2e8f0;
+    background-color: #1e293b;
+}
+
+body[data-theme="dark"] .headerButtons button:hover,
+body[data-theme="dark"] #registerButton:hover {
+    background-color: #334155;
+}
+
+body[data-theme="dark"] #menuButton {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+body[data-theme="dark"] #menuButton span {
+    background-color: #e2e8f0;
+}
+
+body[data-theme="dark"] #headerMenu {
+    background-color: #111827;
+    border-color: #334155;
+}
+
+body[data-theme="dark"] #site-footer footer {
+    color: #cbd5e1;
+    background-color: #111827;
+    border-color: #334155;
+}
+
+body[data-theme="dark"] .footerLinks a:hover,
+body[data-theme="dark"] .footerLinks a:focus-visible {
+    color: #93c5fd;
+}
+
+body[data-theme="dark"] #hero {
+    color: #e2e8f0;
+    background-color: #0f172a;
+}
+
+body[data-theme="dark"] #textPanels p {
+    color: #93c5fd;
+}
+
+body[data-theme="dark"] #hero > div[id^="exos"] {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+body[data-theme="dark"] #hero > div[id^="exos"] p {
+    color: #cbd5e1;
+}
+
+body[data-theme="dark"] #hero > div[id^="exos"] button {
+    color: #bfdbfe;
+    background-color: #1e3a8a;
+}
+
+body[data-theme="dark"] #allExos {
+    color: #bfdbfe;
+    background-color: #1e293b;
+    border-color: #3b82f6;
+}
+
+body[data-theme="dark"] #allExos:hover {
+    background-color: #334155;
+}
+
+body[data-theme="dark"] #loginForm,
+body[data-theme="dark"] #registerForm {
+    color: #e2e8f0;
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+body[data-theme="dark"] #loginForm input,
+body[data-theme="dark"] #registerForm input[type="text"],
+body[data-theme="dark"] #registerForm input[type="email"],
+body[data-theme="dark"] #registerForm input[type="password"] {
+    color: #e2e8f0;
+    background-color: #0f172a;
+    border-color: #475569;
+}
+
+body[data-theme="dark"] #settingsPanel {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+body[data-theme="dark"] .settingsPanel.is-open .settingsContent {
+    border-top-color: #334155;
+}
+
+body[data-theme="dark"] .settingsField {
+    color: #cbd5e1;
+}
+
+body[data-theme="dark"] #settingsContent select {
+    color: #e2e8f0;
+    background-color: #0f172a;
+    border-color: #475569;
+}
+
+body[data-theme="dark"] #settingsContent select:hover {
+    background-color: #1e293b;
+    border-color: #64748b;
+}
+
+body[data-theme="dark"] #settingsContent select option {
+    color: #e2e8f0;
+    background-color: #0f172a;
+}
+
+body[data-theme="dark"] .exercise-help .help-tooltip,
+body[data-theme="dark"] .item,
+body[data-theme="dark"] .choice,
+body[data-theme="dark"] .face {
+    border-color: #475569;
+}
+
+body[data-theme="dark"] .choice.correct,
+body[data-theme="dark"] .card.matched .front {
+    color: #dcfce7;
+    background-color: #14532d;
+    border-color: #34d399;
+}
+
+body[data-theme="dark"] .item.drop-target {
+    background-color: #1e3a5f;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body,
+    header,
+    footer,
+    #hero,
+    #loginForm,
+    #registerForm {
+        transition: none;
+    }
+}

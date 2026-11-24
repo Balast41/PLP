@@ -1,4 +1,5 @@
 const demoUserNameKey = "plp.demoUserName";
+const themeStorageKey = "plp.theme";
 
 function updateHeader() {
     const storedUserName = localStorage.getItem(demoUserNameKey);
@@ -10,6 +11,7 @@ function updateHeader() {
     const exos1Button = document.getElementById("exos1B");
     const exos2Button = document.getElementById("exos2B");
     const exos3Button = document.getElementById("exos3B");
+    const exosButton = document.getElementById("ExercicesButton");
 
     if (userName) {
         userName.textContent = storedUserName || "";
@@ -17,6 +19,9 @@ function updateHeader() {
     }
     if (loginButton) {
         loginButton.hidden = Boolean(storedUserName);
+    }
+    if (exosButton) {
+        exosButton.hidden = !storedUserName;
     }
     if (registerButton) {
         registerButton.hidden = Boolean(storedUserName);
@@ -47,6 +52,14 @@ function updateHeader() {
         });
         logo.style.cursor = "pointer";
     }
+
+    const logoMini = document.getElementById("logoMini");
+    if (logoMini) {
+        logoMini.addEventListener("click", () => {
+            window.location.href = "/index.html";
+        });
+        logoMini.style.cursor = "pointer";
+    }
 }
 
 function saveDemoSession(userName) {
@@ -64,6 +77,75 @@ function configureLoginForm() {
         event.preventDefault();
         const email = form.elements.email.value.trim();
         saveDemoSession(email.split("@")[0] || "Utilisateur");
+    });
+}
+
+function configureMobileHeader() {
+    const menuButton = document.getElementById("menuButton");
+    const menu = document.getElementById("headerMenu");
+    if (!menuButton || !menu) {
+        return;
+    }
+
+    const closeMenu = () => {
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.setAttribute("aria-label", "Ouvrir le menu");
+        menu.classList.remove("is-open");
+    };
+
+    menuButton.addEventListener("click", () => {
+        const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+        menuButton.setAttribute("aria-expanded", String(!isOpen));
+        menuButton.setAttribute("aria-label", isOpen ? "Ouvrir le menu" : "Fermer le menu");
+        menu.classList.toggle("is-open", !isOpen);
+    });
+
+    menu.addEventListener("click", (event) => {
+        if (event.target.closest("button")) {
+            closeMenu();
+        }
+    });
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > 700) {
+            closeMenu();
+        }
+    });
+}
+
+function configureSettingsPanel() {
+    const settingsButton = document.getElementById("settingsButton");
+    const settingsPanel = document.getElementById("settingsPanel");
+    const settingsContent = document.getElementById("settingsContent");
+    if (!settingsButton || !settingsPanel || !settingsContent) {
+        return;
+    }
+
+    settingsButton.addEventListener("click", () => {
+        const isOpen = settingsButton.getAttribute("aria-expanded") === "true";
+        settingsButton.setAttribute("aria-expanded", String(!isOpen));
+        settingsButton.setAttribute("aria-label", isOpen ? "Ouvrir les paramètres" : "Fermer les paramètres");
+        settingsContent.setAttribute("aria-hidden", String(isOpen));
+        settingsPanel.classList.toggle("is-open", !isOpen);
+    });
+}
+
+function configureTheme() {
+    const themeSelect = document.getElementById("themeSelect");
+    if (!themeSelect) {
+        return;
+    }
+
+    const savedTheme = localStorage.getItem(themeStorageKey)
+        ?? localStorage.getItem("plp.homeTheme");
+    const theme = savedTheme === "dark" ? "dark" : "light";
+    document.body.dataset.theme = theme;
+    themeSelect.value = theme;
+
+    themeSelect.addEventListener("change", () => {
+        const selectedTheme = themeSelect.value === "dark" ? "dark" : "light";
+        document.body.dataset.theme = selectedTheme;
+        localStorage.setItem(themeStorageKey, selectedTheme);
     });
 }
 
@@ -101,5 +183,8 @@ function togglePasswordVisibility(inputId) {
 window.togglePasswordVisibility = togglePasswordVisibility;
 
 updateHeader();
+configureMobileHeader();
+configureSettingsPanel();
+configureTheme();
 configureLoginForm();
 configureRegisterForm();
