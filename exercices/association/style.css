@@ -16,10 +16,15 @@ body {
   color: var(--ink);
   line-height: 1.5;
 }
-main { max-width: 100%; margin-left: 20%; margin-right: 20%; padding: 56px 16px 48px; }
+main {
+  width: min(100%, 960px);
+  margin-inline: auto;
+  padding: 56px clamp(12px, 4vw, 32px) 48px;
+}
 .exercise-frame {
   position: relative;
   --item-height: clamp(64px, calc((100vh - 220px) / var(--association-rows, 4)), 100px);
+  --column-gap: clamp(12px, 6vw, 80px);
 }
 .exercise-help { position: absolute; top: 16px; right: 16px; z-index: 2; }
 .help-button {
@@ -48,8 +53,8 @@ main { max-width: 100%; margin-left: 20%; margin-right: 20%; padding: 56px 16px 
 .board {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 clamp(48px, 18vw, 130px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--column-gap);
 }
 .col {
   display: grid;
@@ -60,6 +65,7 @@ main { max-width: 100%; margin-left: 20%; margin-right: 20%; padding: 56px 16px 
 .item {
   font: inherit;
   height: var(--item-height);
+  min-width: 0;
   padding: 8px 12px;
   background: var(--card);
   color: var(--ink);
@@ -67,7 +73,7 @@ main { max-width: 100%; margin-left: 20%; margin-right: 20%; padding: 56px 16px 
   border-radius: var(--radius);
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.15rem; font-weight: 600;
+  font-size: clamp(1rem, 3.5vw, 1.15rem); font-weight: 600;
   transition: transform .12s, border-color .12s, box-shadow .12s, background-color .12s;
 }
 .item.image, .item.word { cursor: grab; touch-action: none; }
@@ -104,8 +110,8 @@ main { max-width: 100%; margin-left: 20%; margin-right: 20%; padding: 56px 16px 
 .answers-list { display: grid; gap: 12px; }
 .answer-pair {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 clamp(48px, 18vw, 130px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--column-gap);
 }
 .answer-pair .item { cursor: default; }
 

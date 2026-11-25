@@ -13,12 +13,16 @@ async function injectComponent(selector, file) {
 }
 
 async function loadComponents() {
+    const footerPlaceholder = document.querySelector("#site-footer");
+
     await Promise.all([
         injectComponent("#site-header", "/header.html"),
-        injectComponent("#site-footer", "/footer.html")
+        ...(footerPlaceholder ? [injectComponent("#site-footer", "/footer.html")] : [])
     ]);
 
-    await injectComponent("#site-settings", "/settings.html");
+    if (document.querySelector("#site-settings")) {
+        await injectComponent("#site-settings", "/settings.html");
+    }
 
     const pageScript = document.createElement("script");
     pageScript.src = "/script.js";
